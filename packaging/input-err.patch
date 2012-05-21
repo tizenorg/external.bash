@@ -1,0 +1,13 @@
+# DP: Define PGRP_PIPE to avoid race condition.
+
+--- input.c~	2005-07-14 13:29:08.000000000 +0100
++++ input.c	2006-04-05 14:51:50.000000000 +0100
+@@ -454,7 +454,7 @@
+       if (nr == 0)
+ 	bp->b_flag |= B_EOF;
+       else
+-	bp->b_flag |= B_ERROR;
++	fatal_error("error reading input file: %s", strerror(errno));
+       return (EOF);
+     }
+ 
