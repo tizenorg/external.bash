@@ -6,6 +6,7 @@ Group: System/Shells
 License: GPLv2+
 Url: http://www.gnu.org/software/bash
 Source0: ftp://ftp.gnu.org/gnu/bash/%{name}-%{version}.tar.gz
+Source1001: packaging/bash.manifest 
 
 # SLP patches
 Patch0: bash41-001.patch
@@ -62,6 +63,7 @@ This package contains documentation files for %{name}.
 %patch12 -p1 -b .builtins-declare-fix
 
 %build
+cp %{SOURCE1001} .
 autoconf
 %configure --enable-largefile --without-bash-malloc --disable-nls
 
@@ -204,6 +206,7 @@ fi
 %docs_package
 
 %files 
+%manifest bash.manifest
 /bin/sh
 /bin/bash
 
