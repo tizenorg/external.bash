@@ -22,10 +22,7 @@ Patch10: input-err.patch
 Patch11: bash-aliases-repeat.patch
 Patch12: builtins-declare-fix.patch
 
-Requires(post): ncurses-libs
-
 BuildRequires: bison
-#BuildRequires: ncurses-devel
 BuildRequires: autoconf
 
 %description
