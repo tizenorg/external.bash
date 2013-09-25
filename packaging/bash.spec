@@ -73,6 +73,9 @@ make check
 
 %install
 rm -rf $RPM_BUILD_ROOT
+# license
+mkdir -p %{buildroot}/usr/share/license
+cp COPYING %{buildroot}/usr/share/license/%{name}
 
 if [ -e autoconf ]; then
   # Yuck. We're using autoconf 2.1x.
@@ -217,3 +220,4 @@ fi
 %{_datadir}/license/%{name}
 /bin/sh
 /bin/bash
+/usr/share/license/%{name}
