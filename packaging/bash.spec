@@ -67,9 +67,7 @@ autoconf
 # Recycles pids is neccessary. When bash's last fork's pid was X
 # and new fork's pid is also X, bash has to wait for this same pid.
 # Without Recycles pids bash will not wait.
-make "CPPFLAGS=-D_GNU_SOURCE -DRECYCLES_PIDS `getconf LFS_CFLAGS`"
-%check
-make check
+make %{?_smp_mflags} "CPPFLAGS=-D_GNU_SOURCE -DRECYCLES_PIDS `getconf LFS_CFLAGS`"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -208,6 +206,7 @@ if [ "$1" = 0 ]; then
       /bin/grep -v '^/bin/sh$' > /etc/shells.new
     /bin/mv /etc/shells.new /etc/shells
 fi
+
 
 %docs_package
 
