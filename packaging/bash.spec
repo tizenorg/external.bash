@@ -1,11 +1,12 @@
 Version: 4.1
 Name: bash
 Summary: The GNU Bourne Again shell
-Release: 1
+Release: 3
 Group: System/Shells
-License: GPLv2+
+License: GPL-3.0+
 Url: http://www.gnu.org/software/bash
 Source0: ftp://ftp.gnu.org/gnu/bash/%{name}-%{version}.tar.gz
+Source1001:    %{name}.manifest
 
 # SLP patches
 Patch0: bash41-001.patch
@@ -59,15 +60,14 @@ This package contains documentation files for %{name}.
 %patch12 -p1 -b .builtins-declare-fix
 
 %build
+cp %{SOURCE1001} .
 autoconf
 %configure --enable-largefile --without-bash-malloc --disable-nls
 
 # Recycles pids is neccessary. When bash's last fork's pid was X
 # and new fork's pid is also X, bash has to wait for this same pid.
 # Without Recycles pids bash will not wait.
-make "CPPFLAGS=-D_GNU_SOURCE -DRECYCLES_PIDS `getconf LFS_CFLAGS`"
-%check
-make check
+make %{?_smp_mflags} "CPPFLAGS=-D_GNU_SOURCE -DRECYCLES_PIDS `getconf LFS_CFLAGS`"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -147,6 +147,16 @@ done
 rm -rf %{buildroot}%{_bindir}/bashbug-*
 chmod a-x doc/*.sh
 
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/license
+for keyword in LICENSE COPYING COPYRIGHT;
+do
+	for file in `find %{_builddir} -name $keyword`;
+	do
+		cat $file >> $RPM_BUILD_ROOT%{_datadir}/license/%{name};
+		echo "";
+	done;
+done
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -159,7 +169,7 @@ rm -rf $RPM_BUILD_ROOT
 %post -p <lua>
 bashfound = false;
 shfound = false;
- 
+
 f = io.open("/etc/shells", "r");
 if f == nil
 then
@@ -178,7 +188,7 @@ else
   until t == nil;
 end
 f:close()
- 
+
 f = io.open("/etc/shells", "a");
 if not bashfound
 then
@@ -200,7 +210,8 @@ fi
 
 %docs_package
 
-%files 
+%files
+%manifest %{name}.manifest
+%{_datadir}/license/%{name}
 /bin/sh
 /bin/bash
-
