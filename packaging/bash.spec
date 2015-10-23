@@ -1,10 +1,10 @@
 Version: 4.1
-Name: bash
+Name:    bash
 Summary: The GNU Bourne Again shell
 Release: 3
-Group: System/Shells
+Group:   System/Shells
 License: GPL-3.0+
-Url: http://www.gnu.org/software/bash
+Url:     http://www.gnu.org/software/bash
 Source0: ftp://ftp.gnu.org/gnu/bash/%{name}-%{version}.tar.gz
 Source1001:    %{name}.manifest
 
